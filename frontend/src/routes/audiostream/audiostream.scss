@@ -1,0 +1,67 @@
+@import "../../variables";
+
+
+@keyframes connected {
+    0% {
+        background-color: #388e3c;
+    }
+    80% {
+        background-color: #388e3c;
+    }
+    100% {
+        background-color: $clr-bg-dark;
+    }
+}
+
+
+
+.AudioStream {
+  background-color: #512da8;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100vh;
+  padding: 2.25rem;
+  justify-content: flex-end;
+  align-items: center;
+  user-select: none;
+
+  button {
+    position: absolute;
+    top: 50vh;
+    display: none;
+  }
+
+  &.connected {
+    background-color: $clr-bg-dark;
+    animation: connected 1.5s;
+  }
+
+  &.connecting {
+    background-color: #1565c0;
+  }
+
+  &.unarmed {
+    background-color: #c62828;
+
+    button {
+      display: initial;
+    }
+  }
+
+
+  .captions {
+    color: $clr-text-light;
+    max-width: 680px;
+    text-align: center;
+    font-size: 1.15rem;
+
+    transition: all 300ms ease;
+    opacity: 0;
+
+    &.show {
+      opacity: 1;
+    }
+
+  }
+}

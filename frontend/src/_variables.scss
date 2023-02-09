@@ -1,0 +1,15 @@
+@use "sass:color";
+
+$clr-uom: #094183;
+$clr-bg: rgb(248, 248, 248);
+$clr-bg-dark: rgb(18, 18, 18);
+$clr-text-dark: rgba(10, 10, 10, 0.92);
+$clr-text-light: rgba(248, 248, 248, 0.98);
+
+$clr-theme: rgb(251, 199, 181);
+
+$border-clr: color.scale($clr-theme, $lightness: +55%);
+$button-clr: color.scale($clr-theme, $lightness: +30%);
+$button-border-clr: color.scale($clr-theme, $lightness: +18%);
+
+$clr-bg-bg: black;

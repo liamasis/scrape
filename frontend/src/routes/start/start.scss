@@ -1,0 +1,570 @@
+@use "sass:color";
+@import "../../variables";
+
+@mixin pos_abs() {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+
+.form-col {
+  max-width: 600px;
+}
+
+
+
+
+.icon-button {
+  border: none !important;
+  box-shadow: none !important;
+  //background: none !important;
+
+  color: $clr-text-light !important;
+  opacity: 0.9;
+  transform: scale(0.95);
+
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+
+  border-radius: 50%;
+  background-color: transparent;
+
+  width: 76px;
+  height: 76px;
+
+  padding: 0.25rem;
+
+  &:hover {
+    //color: rgb(240 240 240);
+    opacity: 1;
+    transform: scale(1);
+    background-color: transparent;
+  }
+
+  &:active {
+    background-color: rgba(100, 100, 100, 0.2);
+  }
+
+
+}
+
+.slide-out {
+
+  font-family: arvo;
+  letter-spacing: -0.75px;
+  position: absolute;
+  bottom: -7vh;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  padding: 0;
+  overflow: hidden;
+
+  flex-direction: column;
+  justify-content: flex-end;
+
+  color: $clr-text-dark;
+
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+
+  .slide-back-holder {
+    position: absolute;
+    left: 17.5vh;
+    top: 11.5vh;
+
+
+    > button {
+      font-size: 2.5rem;
+    }
+
+    transition: all 290ms ease;
+    transform: translate(-30px, -30px) rotate(15deg);
+    opacity: 0;
+
+    .Home.open & {
+      transform: translate(0px);
+      opacity: 1;
+      transition-delay: 275ms;
+    }
+
+    .Home.enter-prompt &,
+    .Home.init_scrape_wait_resp & {
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+  }
+
+  .Home.open.ready.modal-open & {
+    opacity: 0.2;
+  }
+
+  transition: all 280ms ease;
+  transform: scale(0.92);
+  opacity: 0;
+  pointer-events: none;
+
+  .Home.open & {
+    transition-delay: 250ms;
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: initial;
+  }
+
+  .word-flash-outer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 7vh;
+    left: 0;
+    pointer-events: none;
+    display: none;
+
+    .Home.init_scrape_wait_resp & {
+      transform: scale(1.05);
+      transition: transform 15s ease-in;
+      display: initial;
+    }
+
+    > .word-flash-inner {
+      @include pos_abs;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      > .word-flash {
+        font-weight: bold;
+        color: white;
+        opacity: 1;
+      }
+    }
+  }
+
+  .keyboard {
+    height: 55vh; // Includes +7vw from slide-out
+    width: 100%;
+    background-color: rgba(194, 196, 201, 0.8);
+    padding: 9px 0;
+    backdrop-filter: blur(15px) saturate(1.1);
+
+    transition: all 330ms ease;
+    transform: translateY(25px);
+    opacity: 0;
+
+    .Home.open & {
+      transform: translateY(0px);
+      opacity: 1;
+      transition-delay: 260ms;
+    }
+
+    .Home.enter-prompt &,
+    .Home.init_scrape_wait_resp & {
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    .react-simple-keyboard.hg-theme-default {
+      background-color: transparent;
+
+      .hg-rows {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .hg-row {
+          justify-content: center;
+
+          &:not(:last-child) {
+            margin-bottom: 11px
+          }
+        }
+
+        .hg-row:nth-child(1) {
+          width: 96.7%;
+        }
+
+        .hg-row:nth-child(2) {
+          width: 91.1%;
+        }
+
+        .hg-row:nth-child(3) {
+          width: 81.2%;
+        }
+
+        .hg-row:nth-child(4) {
+          width: 64.2%;
+        }
+
+        .hg-row:nth-child(5) {
+          width: 55%;
+        }
+
+        .hg-button {
+          //background-color: $button-clr;
+          //background-color: color.scale($clr-theme, $lightness: +100%);
+
+          transition: background-color 110ms ease, border-color 110ms ease;
+
+          &.hg-standardBtn > span {
+            position: relative;
+            top: 5px;
+          }
+
+          &.hg-button-shift {
+            background-color: $button-clr;
+          }
+
+          &.hg-button-bksp {
+            width: 99px;
+            max-width: 99px;
+            background-color: $button-clr;
+            border-color: $button-border-clr;
+
+            &.hg-activeButton {
+              background-color: white;
+              border-color: rgb(247 247 247);
+              transition: none;
+            }
+
+            > span {
+              //position: relative;
+              //top: -1px;
+            }
+          }
+
+          &.hg-button-space {
+            width: 300px;
+            max-width: 300px;
+          }
+
+          &.hg-activeButton {
+            background-color: $button-clr;
+            border-color: $button-border-clr;
+            transition: none;
+          }
+
+          font-family: arvo;
+
+          background-color: white;
+
+          border-radius: 18px;
+          border: 3px solid rgb(247 247 247);
+          box-shadow: 0 2px 3px -1px rgb(0 0 0 / 22%);
+
+          height: 61px;
+          width: 66px;
+          max-width: 66px;
+          font-size: 1.5rem;
+
+          &:not(:last-child) {
+            margin-right: 8px;
+          }
+          //border-radius: 25px;
+        }
+      }
+
+    }
+
+    //backdrop-filter: blur(18px) saturate(1.1);
+  }
+
+  input {
+    letter-spacing: -0.65px;
+  }
+
+
+  //.header {
+  //  padding: 1.3rem 1.7rem;
+  //  border-top-left-radius: 25px;
+  //  border-top-right-radius: 25px;
+  //  background-color: $clr-theme;
+  //
+  //  > h4 {
+  //    margin: 0;
+  //  }
+  //}
+
+  .body {
+    //position: absolute;
+    //top: 42vw;
+    width: 100%;
+    padding: 0 15vh 3vh;
+
+
+    .Home.enter-prompt &,
+    .Home.init_scrape_wait_resp & {
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    //flex-grow: 1;
+
+    //background-color: rgba(255, 255, 255, 0.4);
+  //backdrop-filter: blur(30px);
+
+  }
+
+  display: flex;
+  flex-direction: column;
+  //justify-content: center;
+  color: $clr-text-dark;
+
+  .slide-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    //margin-left: 25px;
+    //margin-top: 32px;
+
+    font-size: 20px;
+
+
+
+    .input-group {
+      width: 70%;
+      margin-right: 12px;
+      margin-left: 7px;
+      //border: 2px solid blue;
+
+      .input-group-text {
+        border: none;
+        background-color: $button-clr;
+        padding: 0.5rem 1.05rem;
+        border-radius: 25px;
+
+        > div {
+          position: relative;
+          top: -1px;
+          left: 1px;
+        }
+      }
+
+      input {
+        background-color: transparent;
+        border: $button-clr 2.5px solid;
+        border-radius: 25px;
+        border-left: none;
+        color: $clr-text-light;
+
+        &:focus {
+          box-shadow: 0 0 0 0.25rem color.scale($clr-theme, $alpha: -75%);
+        }
+
+        &::placeholder {
+          color: $clr-text-light;
+          opacity: 0.5;
+        }
+      }
+
+    }
+    //flex
+  }
+}
+
+
+
+
+@keyframes flash-fade-0 {
+    0% {
+      opacity: 0;
+      transform: scale(0.97)
+    }
+    20% {
+      opacity: 1;
+      transform: initial;
+    }
+    40% {
+      opacity: 0;
+      transform: scale(0.97)
+    }
+    60% {
+      opacity: 1;
+      transform: initial;
+    }
+    73% {
+      opacity: 0;
+      transform: scale(0.97)
+    }
+    86% {
+      opacity: 1;
+      transform: initial;
+    }
+    100%  {
+      opacity: 0;
+      transform: scale(0.97)
+    }
+}
+
+
+@keyframes flash-fade-1 {
+    0% {
+      opacity: 0;
+      transform: translate(-5px, 5px) scale(0.97)
+    }
+    20% {
+      opacity: 1;
+      transform: initial;
+    }
+    100%  {
+      opacity: 0;
+      transform: translate(0px, -5px);
+    }
+}
+
+
+@keyframes flash-fade-2 {
+    0% {
+      opacity: 0;
+      transform: translate(-2px, 3px) scale(0.98)
+    }
+    20% {
+      opacity: 1;
+      transform: initial;
+    }
+    60% {
+      opacity: 1;
+      transform: initial;
+    }
+    61% {
+      opacity: 0;
+      transform: initial;
+    }
+    80% {
+      opacity: 0;
+      transform: initial;
+    }
+    81% {
+      opacity: 1;
+      transform: initial;
+    }
+    100%  {
+      opacity: 0;
+      transform: translate(0px, -2px);
+    }
+}
+
+
+@keyframes flash-fade-3 {
+    0% {
+      opacity: 0;
+      transform: translate(-10px, 4px) scale(0.97)
+    }
+    30% {
+      opacity: 1;
+      transform: initial;
+    }
+    100%  {
+      opacity: 0;
+      transform: translate(0px, 0px);
+    }
+}
+
+
+@keyframes flash-fade-4 {
+    0% {
+      opacity: 0;
+      transform: translate(-2px, -9px) scale(0.99)
+    }
+    50% {
+      opacity: 1;
+      transform: initial;
+    }
+    100%  {
+      opacity: 0;
+      transform: translate(0px, 0px) scale(1.02);
+    }
+}
+
+
+@keyframes flash-fade-5 {
+    0% {
+      opacity: 0;
+      transform: translate(2px, 3px) scale(0.97)
+    }
+    20% {
+      opacity: 1;
+      transform: initial;
+    }
+    100%  {
+      opacity: 0;
+      transform: translate(0px, -5px);
+    }
+}
+
+.Home.modal-open {
+  .lds-ellipsis {
+    opacity: 0 !important;
+  }
+}
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+
+  &.modal-hidden {
+    opacity: 0;
+  }
+
+  &.clr > div {
+    background: $clr-theme;
+  }
+
+  div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #fff;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+
+    &:nth-child(1) {
+      left: 8px;
+      animation: lds-ellipsis1 0.6s infinite;
+    }
+    &:nth-child(2) {
+      left: 8px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+    &:nth-child(3) {
+      left: 32px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+    &:nth-child(4) {
+      left: 56px;
+      animation: lds-ellipsis3 0.6s infinite;
+    }
+  }
+}
+
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}

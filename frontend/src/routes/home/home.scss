@@ -1,0 +1,1134 @@
+@use "sass:color";
+@import "../../variables";
+@import "modal";
+
+@mixin pos_abs() {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  margin-bottom: 1rem;
+}
+
+
+$size: 98.75vh;
+
+.Home {
+  position: absolute;
+  background-color: $clr-bg;
+
+  &.circle {
+    width: $size;
+    height: $size;
+    top: 0.25vh;
+    left: calc((100vw - #{$size}) / 2);
+    clip-path: circle(50%);
+  }
+
+  &.auxiliary {
+    @include pos_abs;
+  }
+
+  overflow: hidden;
+
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 400ms ease;
+
+  &.open {
+    background-color: black;
+    transition: background-color 100ms ease;
+  }
+
+  &.init_scrape_wait_resp {
+    background-color: #0a0000;
+    transition: background-color 12s ease-in;
+  }
+
+  &.armed {
+    animation: fadein 2s;
+  }
+
+  &.occupied {
+
+    .splash-holder {
+      filter: blur(18px) saturate(1.1);
+    }
+
+    .title-holder {
+      display: none;
+    }
+
+    //.title-holder .svgs {
+    //  filter: blur(10px);
+    //}
+
+    .button-holder {
+      display: none;
+    }
+
+    .occupied-holder {
+      pointer-events: initial;
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.button-holder {
+  position: absolute;
+  bottom: 25vh;
+
+  .Home.auxiliary & {
+    display: none;
+  }
+}
+
+.title-holder {
+  //position: absolute;
+  //top: 0;
+  transition: all 430ms ease;
+
+
+  .Home.open & {
+    transition: all 400ms ease;
+    transform: scale(1.15);
+  }
+
+  //transform: translateY(calc(25vh - 60px));
+
+  //.Home.hidden & {
+  //transform: translateY(calc(50vh - 60px));
+  //}
+}
+
+.temp-overlay {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  //background-color: red;
+  background: radial-gradient(transparent calc(#{$size} / 2), $clr-bg-bg 0px);
+  pointer-events: none;
+
+  z-index: 100;
+  display: none;
+}
+
+.caide-button {
+  //font-size: 3.6vw;
+  font-size: 1.9em;
+  padding: 0.8rem 2.4rem;
+
+  color: $clr-text-light !important;
+  border: color.scale($clr-theme, $lightness: +35%, $alpha: -5%) 5.5px solid;
+  border-radius: 50px;
+
+  overflow: hidden;
+  background-color: transparent;
+  //background: rgba(255, 255, 255, 0.2);
+  font-family: 'Arvo';
+  opacity: 0.97;
+  transition: all 220ms ease;
+  transform: scale(1);
+  position: relative;
+
+  > .button-splash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 1;
+    transition: all 220ms ease;
+    //background-color: color.scale($clr-theme, $lightness: +40%, $alpha: -80%);
+    background-color: rgba(247, 184, 197, 0.2);
+    background-color: hsl(348deg 100% 85% / 22%);
+    //background-color: rgba(242, 167, 216, 0.2);
+    //animation: color-swirl-btn 24s infinite alternate-reverse;
+  }
+
+  > .button-text {
+    position: relative;
+  }
+
+  &:hover {
+    transform: scale(1.025);
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: color.scale($clr-theme, $lightness: +50%, $alpha: -30%);
+    color: white;
+
+    > .button-splash {
+      opacity: 0.3;
+    }
+  }
+}
+
+.close-button {
+  font-size: 1.65rem;
+  border: none;
+  opacity: 0.92;
+  position: absolute;
+  padding: 0;
+  font-weight: bold;
+  width: 3.5rem;
+  height: 3.5rem;
+  right: 0.8rem;
+  top: 0.4rem;
+  border-radius: 50%;
+  padding: 0;
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.start-button {
+
+  .Home.open & {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+    transition: all 300ms ease;
+  }
+
+}
+
+.splash-holder {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: all 800ms ease;
+
+  .Home.open & {
+    transform: scale(1.25);
+    filter: contrast(0.7);
+    opacity: 0.55;
+    transition: all 370ms ease;
+  }
+
+}
+
+.border-holder {
+  transition: transform 1200ms ease;
+  position: absolute;
+  pointer-events: none;
+
+  height: 100%;
+  width: 100%;
+
+  .Home.circle & {
+    border-radius: 50%;
+  }
+
+  border: 3vh $clr-theme solid;
+  transform: scale(1);
+
+  .Home.open & {
+    transition: transform 1400ms ease, border-color 1400ms ease, opacity 400ms ease;
+    transform: scale(1.12);
+    opacity: 0.75;
+    border-color: color.scale($clr-theme, $saturation: -80%, $lightness: -80%);
+    //opacity: 0.15;
+  }
+}
+
+.splash-outer {
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: -10%;
+  right: -10%;
+  background-size: cover;
+}
+
+.splash-inner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-size: cover;
+}
+
+
+
+.splash {
+
+  &.splash-1-outer, &.splash-2-outer {
+    filter: grayscale(0.66)
+  }
+
+  &.splash-1 {
+    background-image: url('../../splash1.jpg');
+    filter: blur(20px);
+    opacity: 0.27;
+    animation: wiggle-1 80s ease 0s infinite;
+  }
+
+  &.splash-2 {
+    //background-image: url('../../splash2.jpg');
+    //filter: blur(17px);
+    //opacity: 0;
+    display: none;
+    //animation: blur 18s ease 0s infinite, wiggle-2 60s ease-out 0s infinite, fade-2 24s ease 0s infinite;
+  }
+
+  &.splash-3 {
+    //animation: color-swirl 15s infinite alternate;
+    background-color: color.scale($clr-theme, $saturation: +0%, $lightness: +0%);
+    // This outer-inner opacity trick is a dirty workaround to an insane chrome bug
+    opacity: 1;
+  }
+
+  &.splash-3-outer {
+    opacity: 0.45;
+  }
+
+  //animation: blur 7s ease 0s infinite, wiggle 4s ease 0s infinite, fade 9s ease 0s infinite;
+
+  //> div.outer
+}
+
+.input-group-lg.xl > .form-control,
+.input-group-lg.xl > .form-select,
+.input-group-lg.xl > .input-group-text,
+.input-group-lg.xl > .btn {
+  padding: 0.65rem 1.3rem;
+  font-size: 1.5rem;
+}
+
+.title {
+  position: relative;
+  color: $clr-text-light;
+  font-size: 100px;
+  font-family: arvo;
+  flex-direction: column;
+  align-items: center;
+  //font-weight: 700;
+
+  .Home.auxiliary & {
+    font-size: 130px;
+  }
+
+  //border: 2px solid color.scale($clr-theme, $saturation: -10%, $lightness: -20%, $alpha: -80%);
+  //border-radius: 50%;
+  height: 110vh;
+  width: 110vh;
+  //top: calc(50% - 55vw);
+  //left: -5vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  user-select: none;
+
+  .subtitle-2 {
+    display: none;
+    font-size: 37px;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    .Home.auxiliary & {
+      display: initial;
+    }
+
+    animation: wiggle-title 15s ease 0s infinite;
+    animation-delay: 150ms;
+    transition: opacity 50ms ease;
+
+    > .subtitle-3 {
+      //animation: scale-title 20s ease 0s infinite;
+      //animation-delay: 150ms;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 12%);
+    }
+
+  }
+
+  > .title-2 {
+    animation: scale-title 20s ease 0s infinite;
+    transition: opacity 50ms ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > .title-3 {
+      animation: wiggle-title 15s ease 0s infinite;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 12%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .Home.auxiliary & {
+        margin-top: 1.75rem;
+        margin-bottom: -1.5rem;
+      }
+    }
+
+    .Home.open & {
+      color: color.scale($clr-theme, $saturation: 0%, $lightness: 70%);
+      opacity: 0;
+    }
+
+  }
+}
+
+//.Home.open {
+//  box-shadow: inset -5px 0 10px 7px rgb(203 16 14);
+//}
+$btn-back-opacity: 0.2;
+
+
+@keyframes rotating {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+
+
+@keyframes color-swirl-btn {
+  0% {
+    background-color: rgba(217, 37, 70, $btn-back-opacity);
+  }
+  25% {
+    background-color: rgba(242, 167, 216, $btn-back-opacity);
+  }
+  50% {
+    background-color: rgba(189, 109, 242, $btn-back-opacity);
+  }
+  75% {
+    background-color: rgba(186, 191, 217, $btn-back-opacity);
+  }
+  100% {
+    background-color: rgba(121, 217, 172, $btn-back-opacity);
+  }
+}
+
+
+//@keyframes color-swirl {
+//  0% {
+//    background-color: #D92546;
+//  }
+//  25% {
+//    background-color: #F2A7D8;
+//  }
+//  50% {
+//    background-color: #BD6DF2;
+//  }
+//  75% {
+//    background-color: #BABFD9;
+//  }
+//  100% {
+//    background-color: #79D9AC;
+//  }
+//}
+
+
+
+@keyframes color-swirl {
+  0% {
+    background-color: $clr-theme;
+  }
+  25% {
+    background-color: color.scale($clr-theme, $lightness: -15%);
+  }
+  50% {
+    background-color: color.scale($clr-theme, $saturation: +10%, $lightness: +15%);
+  }
+  75% {
+    background-color: color.scale($clr-theme, $saturation: -5%, $lightness: -15%);
+  }
+  100% {
+    background-color: color.scale($clr-theme, $saturation: +10%, $lightness: -25%);
+  }
+}
+
+@keyframes blur {
+  0%, 99% {
+    filter: blur(0px);
+  }
+  30% {
+    filter: blur(10px);
+  }
+  50% {
+    filter: blur(15px);
+  }
+  65% {
+    filter: blur(3px);
+  }
+  80% {
+    filter: blur(25px);
+  }
+}
+
+@keyframes wiggle-1 {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  5% {
+    transform: translate(-2px, -9px);
+  }
+  15% {
+    transform: translate(5px, 13px);
+  }
+  20% {
+    transform: translate(13px, -19px);
+  }
+  34% {
+    transform: translate(0px, -11px);
+  }
+  42% {
+    transform: translate(-16px, -5px);
+  }
+  50% {
+    transform: translate(4px, -1px);
+  }
+  61% {
+    transform: translate(-2px, 11px);
+  }
+  65% {
+    transform: translate(-17px, -14px);
+  }
+  80% {
+    transform: translate(-3px, -16px);
+  }
+  84% {
+    transform: translate(-7px, 15px);
+  }
+  90% {
+    transform: translate(16px, 12px);
+  }
+  99% {
+    transform: translate(0px, 0px);
+  }
+}
+
+
+@keyframes scale-circle {
+  0%, 95% {
+    transform: scale(1)
+  }
+  30% {
+    transform: scale(0.98)
+  }
+  40% {
+    transform: scale(0.92)
+  }
+  62% {
+    transform: scale(0.96)
+  }
+  81% {
+    transform: scale(0.99)
+  }
+}
+
+
+@keyframes scale-circle-2 {
+  0%, 95% {
+    transform: scale(1)
+  }
+  30% {
+    transform: scale(1.01)
+  }
+  40% {
+    transform: scale(1.08)
+  }
+  62% {
+    transform: scale(1.06)
+  }
+  81% {
+    transform: scale(1.02)
+  }
+}
+
+@keyframes scale-title {
+  0%, 95% {
+    transform: scale(1)
+  }
+  25% {
+    transform: scale(1.08)
+  }
+  40% {
+    transform: scale(1.02)
+  }
+  62% {
+    transform: scale(1.12)
+  }
+  81% {
+    transform: scale(0.94)
+  }
+}
+
+@keyframes scale-title-circles {
+  0%, 95% {
+    transform: scale(1)
+  }
+  25% {
+    transform: scale(1.04)
+  }
+  40% {
+    transform: scale(1.01)
+  }
+  62% {
+    transform: scale(1.06)
+  }
+  81% {
+    transform: scale(0.96)
+  }
+}
+
+@keyframes wiggle-title {
+  0% {
+    transform: translate(0px, 0px)
+  }
+  2% {
+    transform: translate(-6px, 0px)
+  }
+  11% {
+    transform: translate(-5px, 6px)
+  }
+  14% {
+    transform: translate(8px, 2px)
+  }
+  34% {
+    transform: translate(8px, -7px)
+  }
+  44% {
+    transform: translate(6px, -2px)
+  }
+  50% {
+    transform: translate(-2px, 1px)
+  }
+  62% {
+    transform: translate(-5px, -3px)
+  }
+  70% {
+    transform: translate(5px, -4px)
+  }
+  80% {
+    transform: translate(1px, -5px)
+  }
+  87% {
+    transform: translate(7px, 4px)
+  }
+  92% {
+    transform: translate(6px, 1px)
+  }
+  99% {
+    transform: translate(0px, 0px)
+  }
+}
+
+
+@keyframes wiggle-circles {
+  0% {
+    transform: translate(0px, 0px)
+  }
+  2% {
+    transform: translate(-3px, 0px)
+  }
+  11% {
+    transform: translate(-2.5px, 3px)
+  }
+  14% {
+    transform: translate(4px, 1px)
+  }
+  34% {
+    transform: translate(4px, -3.5px)
+  }
+  44% {
+    transform: translate(3px, -1px)
+  }
+  50% {
+    transform: translate(-1px, 0.5px)
+  }
+  62% {
+    transform: translate(-2.5px, -1.5px)
+  }
+  70% {
+    transform: translate(2.5px, -2px)
+  }
+  80% {
+    transform: translate(0.5px, -2.5px)
+  }
+  87% {
+    transform: translate(3.5px, 2px)
+  }
+  92% {
+    transform: translate(3px, 0.5px)
+  }
+  99% {
+    transform: translate(0px, 0px)
+  }
+}
+
+
+@keyframes wiggle-2 {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  2% {
+    transform: translate(-17px, -16px);
+  }
+  10% {
+    transform: translate(3px, 12px);
+  }
+  20% {
+    transform: translate(7px, -8px);
+  }
+  30% {
+    transform: translate(7px, -14px);
+  }
+  40% {
+    transform: translate(10px, -20px);
+  }
+  50% {
+    transform: translate(-16px, -19px);
+  }
+  60% {
+    transform: translate(-17px, 4px);
+  }
+  70% {
+    transform: translate(12px, -13px);
+  }
+  80% {
+    transform: translate(-16px, -16px);
+  }
+  90% {
+    transform: translate(7px, 7px);
+  }
+  99% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes fade-1 {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 0.25;
+  }
+  60% {
+    opacity: 0.15;
+  }
+  80% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes fade-2 {
+  0% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  39.5% {
+    opacity: 0.4;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  0.5% {
+    opacity: 0.3;
+  }
+  60% {
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.5;
+  }
+}
+
+$svgs-inset: 5%;
+
+.svgs {
+  animation: wiggle-circles 15s ease 0s infinite;
+  animation-delay: 250ms;
+  position: absolute;
+  top: $svgs-inset;
+  left: $svgs-inset;
+  right: $svgs-inset;
+  bottom: $svgs-inset;
+
+  > .svgs-2 {
+    animation: scale-title-circles 20s ease 0s infinite;
+    animation-delay: 250ms;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.occupied-holder {
+  @include pos_abs;
+  font-family: arvo;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.12);
+  color: $clr-text-light;
+  user-select: none;
+
+  pointer-events: none;
+  opacity: 0;
+
+  > .occupied-notice {
+    padding-top: 19px;
+    margin-bottom: -30px;
+    font-size: 1.7rem;
+
+    b {
+      font-size: 1.9rem;
+    }
+  }
+
+  > .occupied-banner {
+    //position: absolute;
+    //top: 40%;
+    //left: 10%;
+    width: 650px;
+    height: 230px;
+    background-color: rgba(249, 146, 125, 0.65);
+    border: rgba(255, 255, 255, 0.2) 14px solid;
+    color: rgb(255 236 232);
+    font-size: 5.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //transform: rotate(-3deg);
+    //opacity: 0.85;
+    //backdrop-filter: blur(20px);
+  }
+}
+
+.svg-holder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 1;
+  transition: opacity 700ms ease;
+
+  //> .svg-outer {
+  //  animation: wiggle-circles 15s ease 0s infinite;
+  //}
+
+  .Home.open & {
+    opacity: 0.26;
+    transition: opacity 400ms ease;
+  }
+
+  .Home.open.ready.modal-open & {
+    opacity: 0.13;
+  }
+
+  &.svg-holder-1 {
+    animation: rotating 200s linear infinite;
+
+    //> .svg-outer {
+    //  animation-delay: 140ms;
+    //}
+  }
+
+  &.svg-holder-2 {
+    animation: rotating 7200s linear infinite reverse;
+
+    //> .svg-outer {
+    //  animation-delay: 210ms;
+    //}
+  }
+
+  &.svg-holder-3 {
+    animation: rotating 350s linear infinite;
+    top: -8%;
+    left: -8%;
+    right: -8%;
+    bottom: -8%;
+
+    //> .svg-outer {
+    //  animation-delay: 280ms;
+    //}
+  }
+
+  &.svg-holder-4 {
+    animation: rotating 700s linear infinite reverse;
+
+    //> .svg-outer {
+    //  animation-delay: 70ms;
+    //}
+  }
+}
+
+
+
+.loading {
+  pointer-events: none;
+  opacity: 0;
+  transition: all 350ms ease;
+  @include pos_abs;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  z-index: 100;
+
+  .Home.enter-prompt.open &,
+  .Home.init_scrape_wait_resp.open & {
+    opacity: 0;
+    pointer-events: initial;
+  }
+
+  .Home.init_scrape_wait_resp.hidden & {
+    opacity: 1;
+    pointer-events: initial;
+  }
+}
+
+
+svg {
+  fill: transparent;
+  stroke-width: 1;
+
+  //stroke-linecap: square;
+
+  circle {
+    stroke: color.scale($clr-theme, $saturation: 0%, $lightness: -10%, $alpha: -20%);
+    stroke-width: 0.1;
+
+    &:nth-child(1) {
+      stroke: color.scale($clr-theme, $saturation: 0%, $lightness: 15%, $alpha: -30%);
+      opacity: 0.2;
+    }
+
+    &:nth-child(2) {
+      stroke: color.scale($clr-theme, $saturation: 0%, $lightness: 50%, $alpha: -70%);
+      stroke-width: 0.2;
+    }
+
+    &:nth-child(3) {
+      stroke: color.scale($clr-theme, $saturation: 0%, $lightness: 2%, $alpha: -10%);
+      opacity: 0.1;
+    }
+  }
+}
+
+
+.svg-1 {
+  stroke: color.scale($clr-theme, $saturation: 0%, $lightness: 30%, $alpha: -55%);
+
+  animation: scale-circle 32s ease 0s infinite;
+
+  .marks {
+    transform: translate(20px, 20px);
+    stroke-width: 0.1;
+
+    $count: 120;
+
+    > line:nth-child(2n) {
+      stroke-width: 0.18;
+      transform: scale(1.5)
+    }
+
+    @for $i from 1 through $count {
+
+      > line:nth-child(#{$i}) {
+        transform: rotate(calc(#{$i} * 360deg / #{$count}));
+      }
+    }
+  }
+}
+
+
+.svg-2 {
+  stroke: color.scale($clr-theme, $saturation: -70%, $lightness: 0%, $alpha: -70%);
+  animation: scale-circle-2 32s ease 0s infinite;
+
+  .marks {
+    transform: translate(20px, 20px);
+    stroke-width: 0.4;
+
+    $count: 60;
+
+    @for $i from 1 through 20 {
+
+      > line:nth-child(#{$i}) {
+        transform: rotate(calc(#{$i} * 360deg / #{$count}));
+        stroke: color.scale($clr-theme, $saturation: -70%, $lightness: $i * 1%, $alpha: -70%);
+      }
+    }
+
+    @for $i from 21 through $count {
+
+      > line:nth-child(#{$i}) {
+        transform: rotate(calc(50deg + #{$i} * 360deg / #{$count}));
+        stroke: color.scale($clr-theme, $saturation: -70%, $lightness: $i * 1%, $alpha: -70%);
+      }
+    }
+  }
+}
+
+
+.svg-3 {
+  stroke: color.scale($clr-theme, $saturation: 0%, $lightness: 80%, $alpha: -90%);
+
+  .marks {
+    transform: translate(20px, 20px);
+    stroke-width: 1.3;
+    //stroke-linecap: round;
+
+    $count: 18;
+
+    @for $i from 1 through $count {
+
+      > line:nth-child(#{$i}) {
+        transform: rotate(calc(#{$i} * 360deg / #{$count}));
+      }
+    }
+  }
+}
+
+
+.svg-4 {
+  stroke: color.scale($clr-theme, $saturation: 0%, $lightness: 45%, $alpha: -80%);
+
+  //animation: scale-circle 20s ease 0s infinite;
+
+  .marks {
+    transform: translate(20px, 20px);
+    stroke-width: 0.1;
+
+    $count: 90;
+
+
+
+    @for $i from 1 through 35 {
+
+      > line:nth-child(#{$i}) {
+        transform: rotate(calc(#{$i} * 360deg / #{$count}));
+      }
+    }
+
+    @for $i from 36 through 50 {
+
+      > line:nth-child(#{$i}) {
+        transform: rotate(calc(50deg + #{$i} * 360deg / #{$count}));
+      }
+    }
+  }
+}
+
+
+
+
+.progressbar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  transform: rotate(-90deg);
+}
+
+.progressbar__svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.progressbar__svg-circle {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke-width: 4.5;
+  stroke-dasharray: 88; // This is 2 pi r of 14
+  stroke-dashoffset: 88; // So that there's a touch of an indicator when first appears
+  stroke: $clr-theme;
+  transform: translate(5px, 5px);
+}
+
+.circle-html {
+  opacity: 1 !important;
+  stroke: $clr-theme !important;
+
+  &.anim-dur-15 {
+    animation: anim_circle 12s linear forwards;
+    animation-delay: 3s;
+  }
+
+  &.anim-dur-45 {
+    animation: anim_circle 30s linear forwards;
+    animation-delay: 15s;
+  }
+
+  &.anim-dur-120 {
+    animation: anim_circle 80s linear forwards;
+    animation-delay: 40s;
+  }
+
+}
+
+
+
+@keyframes anim_circle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+.eye-fade {
+  @include pos_abs;
+  border-radius: 50%;
+  box-shadow: inset 0 0 50px 130px #000;
+  transform: scale(1.5);
+  pointer-events: none;
+  opacity: 0;
+
+  .Home.init_scrape_wait_resp & {
+    transform: scale(1.4);
+    opacity: 0.65;
+    transition: transform 15s ease, opacity 7s ease-in;
+  }
+
+  .Home.enter-prompt & {
+    transition: transform 700ms ease, opacity 700ms ease-in;
+  }
+
+}

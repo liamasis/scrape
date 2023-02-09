@@ -1,0 +1,9 @@
+.git
+.idea
+.venv
+build
+frontend
+nginx
+collectstatic
+instagrapi
+swarm/static/audio

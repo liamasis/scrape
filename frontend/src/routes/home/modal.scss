@@ -1,0 +1,100 @@
+@import "../../variables";
+
+.caide-modal {
+
+  font-family: arvo;
+
+  &.xl {
+    max-width: 580px !important;
+  }
+
+  > .modal-content {
+    background-color: rgb(253, 253, 253);
+    border: none;
+    border-radius: 25px;
+
+    > .modal-header {
+      background-color: $clr-theme;
+      border-top-left-radius: 25px;
+      border-top-right-radius: 25px;
+      padding: 1.1rem 1.5rem;
+      border: none;
+    }
+
+    > .modal-body {
+      padding: 1.1rem 1.5rem 0.2rem;
+
+      p {
+        margin-bottom: 0.35rem;
+        color: $clr-text-dark;
+
+        &:last-child {
+          margin-bottom: 0.05rem;
+        }
+
+        &.style-2 {
+          font-size: 0.775rem;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: rgb(10 10 10 / 43%);
+          text-align: center;
+          margin-top: 1rem;
+        }
+      }
+    }
+
+    > .modal-footer {
+      border: none;
+      padding: 0.75rem 0.75rem 0.75rem;
+
+      > .expando {
+        flex-grow: 1;
+      }
+
+      > button {
+        //background-color: rgb(251, 199, 181);
+        //border-color: rgb(251, 199, 181);
+        //color: $clr-text-dark;
+        //border-radius: 25px;
+        //padding: 0.425rem 1rem;
+      }
+    }
+  }
+
+}
+
+
+.btn-scrapeelegy {
+  //background-color: rgb(251, 199, 181);
+  //border-color: rgb(251, 199, 181);
+  //color: black;
+  border-radius: 25px;
+  padding: 0.425rem 1rem;
+
+  color: $clr-text-dark;
+
+  &.xl {
+    padding: 0.625rem 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  &.btn-light {
+    color: $clr-text-dark;
+    background-color: rgb(248 249 250);
+    border-color: rgb(248 249 250);
+
+    &:hover {
+      color: $clr-text-dark;
+      background-color: rgb(243 243 243);
+      border-color: rgb(243 243 243);
+    }
+
+    &:active {
+      color: $clr-text-dark;
+      background-color: rgb(243 243 243);
+      border-color: rgb(243 243 243);
+    }
+
+  }
+
+}

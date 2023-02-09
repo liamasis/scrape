@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+daphne = "*"
+redis = "*"
+huey = "*"
+instagrapi = "*"
+pillow = "*"
+channels = "*"
+channels-redis = "*"
+azure-cognitiveservices-speech = "*"
+python-dotenv = "*"
+psycopg2 = "*"
+numpy = "*"
+humanize = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
